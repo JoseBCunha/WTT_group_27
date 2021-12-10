@@ -4,12 +4,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
+# polar data
 polar = np.array(pd.read_csv('polar_data.csv', skiprows=1, sep=','))
-
 AoA = polar[:,0]
 Cl = polar[:,1]
 Cd = polar[:,2]
 Cm = polar[:,4]
+
+# Cp data
+Cps = np.array(pd.read_csv('CP_data.csv', skiprows=1, sep=','))
+Cp = []
+x = []
+for i in range(0, 5):
+    Cp.append(Cps[:,3*i +2])
+for i in range(0, 5):
+    x.append(Cps[:, 3 * i])
+
+
 
 def LiftPolar():
     plt.scatter(AoA,Cl, s=10, c="r", label="XFOIL")
@@ -44,5 +55,14 @@ def DragPolar():
     # plt.savefig("Cl_Cd.png", dpi="figure", transparent=True)
     return plt.show()
 
-
+def CpGraph(n):
+    plt.scatter(x[n], Cp[n], s=10, c="r", label="XFOIL")
+    plt.plot(x[n], Cp[n], color="black", linewidth=1)
+    plt.title("Cp Curve")
+    plt.xlabel("x / c")
+    plt.ylabel("Cp")
+    plt.grid()
+    plt.legend()
+    # plt.savefig("Cl_Cd.png", dpi="figure", transparent=True)
+    return plt.show()
 
