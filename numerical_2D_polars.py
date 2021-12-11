@@ -94,10 +94,10 @@ def Airfoil():
     plt.figure(figsize=(16, 3))
     plt.scatter(x_c,y_c, s=10, c="r")
     plt.plot(x_c,y_c, color="black", linewidth=1)
-    plt.xlabel("x/c")
-    plt.ylabel("y/c")
+    plt.ylabel("y/c", fontsize=20)
+    plt.xlabel("x/c", fontsize=20)
+    plt.tight_layout()
     plt.savefig("airfoil_plot.png", dpi="figure", transparent=True)
     return plt.show()
 
 # print(CpGraph(0), CpGraph(1), CpGraph(2), CpGraph(3), CpGraph(4),LiftPolar(),MomentPolar(),DragPolar(),DragPolar2(),Airfoil())
-
