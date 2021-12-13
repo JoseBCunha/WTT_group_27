@@ -48,13 +48,13 @@ Cnb = np.trapz(cp_array[:,2], loc_lst)
 
 Cn_lst = []
 Cm_lst = []
-C
+
 for i in range(len(AoA_lst)):
     Cn = np.trapz(cp_array[:,i], loc_lst)
     Cn_lst.append(Cn)
     Cm = np.trapz(cp_array[:,i] * loc_lst, loc_lst)
     Cm_lst.append(Cm)
-    Cd = 
+    #Cd = 
     
 
 print(Cn_lst)
@@ -64,8 +64,39 @@ print(Cm_lst)
 print("Cn together is:", Cnb)
 
 
+plt.plot(loc_lst, cp_aoa_0)
+plt.gca().invert_yaxis()
+plt.title("Pressure distribution for 0 degree AoA")
+plt.xlabel("Spanwise position")
+plt.ylabel("Pressure coefficient")
+plt.show()
+
+plt.plot(loc_lst, cp_aoa_5)
+plt.gca().invert_yaxis()
+plt.title("Pressure distribution for 5 degree AoA")
+plt.xlabel("Spanwise position")
+plt.ylabel("Pressure coefficient")
+plt.show()
+
+plt.plot(loc_lst, cp_aoa_10)
+plt.gca().invert_yaxis()
+plt.title("Pressure distribution for 10 degree AoA")
+plt.xlabel("Spanwise position")
+plt.ylabel("Pressure coefficient")
+plt.show()
+
+plt.plot(loc_lst, cp_aoa_15)
+plt.gca().invert_yaxis()
+plt.title("Pressure distribution for 15 degree AoA")
+plt.xlabel("Spanwise position")
+plt.ylabel("Pressure coefficient")
+plt.show()
+
 plt.plot(loc_lst, cp_aoa_17)
 plt.gca().invert_yaxis()
+plt.title("Pressure distribution for 17 degree AoA")
+plt.xlabel("Spanwise position")
+plt.ylabel("Pressure coefficient")
 plt.show()
 
 
