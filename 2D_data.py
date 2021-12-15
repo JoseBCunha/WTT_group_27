@@ -1,8 +1,24 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import scipy as sp 
+import scipy as sp
+import math
 
 Cp_data = np.genfromtxt('cp_test.txt', dtype = float)
+
+f = open('raw_test.txt','r') # Open file for reading
+lines = f.readlines()
+f.close()
+            
+rows = np.array([])
+for i in range(len(lines)):
+    rows = np.hstack((rows, np.array(lines[i])))
+ 
+# EVERYTHING ABOVE WORKS DONT DELETE!!!!
+
+## ==> now all rows are still strings, try to split
+# rows in sperate entries in order to hve 2D array
+
+
 
 
 AoA_lst = Cp_data[1,1:]
@@ -63,12 +79,12 @@ for i in range(len(AoA_lst)):
 ##
 ##print("Cn together is:", Cnb)
 
-plt.plot(AoA_lst, Cn_lst)
-plt.title("normal coefficients")
-plt.show()
-plt.plot(AoA_lst, Cm_lst)
-plt.title("moment coefficients")
-plt.show()
+##plt.plot(AoA_lst, Cn_lst)
+##plt.title("normal coefficients")
+##plt.show()
+##plt.plot(AoA_lst, Cm_lst)
+##plt.title("moment coefficients")
+##plt.show()
 
 
 ##plt.plot(loc_lst, cp_aoa_5)
