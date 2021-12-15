@@ -57,47 +57,54 @@ for i in range(len(AoA_lst)):
     #Cd = 
     
 
-print(Cn_lst)
-print()
-print(Cm_lst)
+##print(Cn_lst)
+##print()
+##print(Cm_lst)
+##
+##print("Cn together is:", Cnb)
 
-print("Cn together is:", Cnb)
-
-
-plt.plot(loc_lst, cp_aoa_0)
-plt.gca().invert_yaxis()
-plt.title("Pressure distribution for 0 degree AoA")
-plt.xlabel("Spanwise position")
-plt.ylabel("Pressure coefficient")
+plt.plot(AoA_lst, Cn_lst)
+plt.title("normal coefficients")
+plt.show()
+plt.plot(AoA_lst, Cm_lst)
+plt.title("moment coefficients")
 plt.show()
 
-plt.plot(loc_lst, cp_aoa_5)
-plt.gca().invert_yaxis()
-plt.title("Pressure distribution for 5 degree AoA")
-plt.xlabel("Spanwise position")
-plt.ylabel("Pressure coefficient")
-plt.show()
 
-plt.plot(loc_lst, cp_aoa_10)
-plt.gca().invert_yaxis()
-plt.title("Pressure distribution for 10 degree AoA")
-plt.xlabel("Spanwise position")
-plt.ylabel("Pressure coefficient")
-plt.show()
-
-plt.plot(loc_lst, cp_aoa_15)
-plt.gca().invert_yaxis()
-plt.title("Pressure distribution for 15 degree AoA")
-plt.xlabel("Spanwise position")
-plt.ylabel("Pressure coefficient")
-plt.show()
-
-plt.plot(loc_lst, cp_aoa_17)
-plt.gca().invert_yaxis()
-plt.title("Pressure distribution for 17 degree AoA")
-plt.xlabel("Spanwise position")
-plt.ylabel("Pressure coefficient")
-plt.show()
+##plt.plot(loc_lst, cp_aoa_5)
+##plt.gca().invert_yaxis()
+##plt.title("Pressure distribution for 5 degree AoA")
+##plt.xlabel("Spanwise position")
+##plt.ylabel("Pressure coefficient")
+##plt.show()
+##
+##plt.plot(loc_lst, cp_aoa_5)
+##plt.gca().invert_yaxis()
+##plt.title("Pressure distribution for 5 degree AoA")
+##plt.xlabel("Spanwise position")
+##plt.ylabel("Pressure coefficient")
+##plt.show()
+##
+##plt.plot(loc_lst, cp_aoa_10)
+##plt.gca().invert_yaxis()
+##plt.title("Pressure distribution for 10 degree AoA")
+##plt.xlabel("Spanwise position")
+##plt.ylabel("Pressure coefficient")
+##plt.show()
+##
+##plt.plot(loc_lst, cp_aoa_15)
+##plt.gca().invert_yaxis()
+##plt.title("Pressure distribution for 15 degree AoA")
+##plt.xlabel("Spanwise position")
+##plt.ylabel("Pressure coefficient")
+##plt.show()
+##
+##plt.plot(loc_lst, cp_aoa_17)
+##plt.gca().invert_yaxis()
+##plt.title("Pressure distribution for 17 degree AoA")
+##plt.xlabel("Spanwise position")
+##plt.ylabel("Pressure coefficient")
+##plt.show()
 
 
 
