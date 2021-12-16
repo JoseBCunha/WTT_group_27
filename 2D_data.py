@@ -1,11 +1,29 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import scipy as sp
+import math
 
 Cp_data = np.genfromtxt('cp_test.txt', dtype = float)
+
+f = open('raw_test.txt','r') # Open file for reading
+lines = f.readlines()
+f.close()
+            
+rows = np.array([])
+for i in range(len(lines)):
+    rows = np.hstack((rows, np.array(lines[i])))
+ 
+# EVERYTHING ABOVE WORKS DONT DELETE!!!!
+
+## ==> now all rows are still strings, try to split
+# rows in sperate entries in order to hve 2D array
+
+
 
 
 AoA_lst = Cp_data[1,1:]
 loc_lst = Cp_data[2:,0]
+loc_lst = loc_lst / 100
 cp_array = Cp_data[2:,1:]
 
 def cp_sort (i):
@@ -14,6 +32,7 @@ def cp_sort (i):
     #cplst= np.flip(cplist)
     return cplst  
 
+# seperate for plotting cp distribution 
 cp_aoa_neg2, cp_aoa_neg1, cp_aoa_0, cp_aoa_1, cp_aoa_2 = cp_sort(0), cp_sort(1), cp_sort(2), cp_sort(3), cp_sort(4) 
 
 cp_aoa_3, cp_aoa_3_5, cp_aoa_4, cp_aoa_4_5, cp_aoa_5, cp_aoa_5_5 = cp_sort(5), cp_sort(6), cp_sort(7), cp_sort(8), cp_sort(9), cp_sort(10)
@@ -31,14 +50,77 @@ cp_aoa_16b, cp_aoa_15_5b, cp_aoa_15b, cp_aoa_14_5_b, cp_aoa_14b, cp_aoa_13_5b = 
 cp_aoa_13b = cp_sort(41)
 
 
+# split upper and lower cp
+
+cp_upper = cp_array[:24,:] #ok
+points_upper = loc_lst[0:24] #ok
+
+points_lower = loc_lst[24:]
+cp_lower = cp_array[24:,:]
+
+##Cna = np.trapz( cp_upper[:,2], points_upper) - np.trapz(cp_lower[:,2], points_lower) ==>> probably wrong method 
+
+Cnb = np.trapz(cp_array[:,2], loc_lst)
+
+Cn_lst = []
+Cm_lst = []
+
+for i in range(len(AoA_lst)):
+    Cn = np.trapz(cp_array[:,i], loc_lst)
+    Cn_lst.append(Cn)
+    Cm = np.trapz(cp_array[:,i] * loc_lst, loc_lst)
+    Cm_lst.append(Cm)
+    #Cd = 
+    
+
+##print(Cn_lst)
+##print()
+##print(Cm_lst)
+##
+##print("Cn together is:", Cnb)
+
+##plt.plot(AoA_lst, Cn_lst)
+##plt.title("normal coefficients")
+##plt.show()
+##plt.plot(AoA_lst, Cm_lst)
+##plt.title("moment coefficients")
+##plt.show()
 
 
-
-
-
-plt.plot(loc_lst, cp_aoa_13b)
-plt.gca().invert_yaxis()
-plt.show()
+##plt.plot(loc_lst, cp_aoa_5)
+##plt.gca().invert_yaxis()
+##plt.title("Pressure distribution for 5 degree AoA")
+##plt.xlabel("Spanwise position")
+##plt.ylabel("Pressure coefficient")
+##plt.show()
+##
+##plt.plot(loc_lst, cp_aoa_5)
+##plt.gca().invert_yaxis()
+##plt.title("Pressure distribution for 5 degree AoA")
+##plt.xlabel("Spanwise position")
+##plt.ylabel("Pressure coefficient")
+##plt.show()
+##
+##plt.plot(loc_lst, cp_aoa_10)
+##plt.gca().invert_yaxis()
+##plt.title("Pressure distribution for 10 degree AoA")
+##plt.xlabel("Spanwise position")
+##plt.ylabel("Pressure coefficient")
+##plt.show()
+##
+##plt.plot(loc_lst, cp_aoa_15)
+##plt.gca().invert_yaxis()
+##plt.title("Pressure distribution for 15 degree AoA")
+##plt.xlabel("Spanwise position")
+##plt.ylabel("Pressure coefficient")
+##plt.show()
+##
+##plt.plot(loc_lst, cp_aoa_17)
+##plt.gca().invert_yaxis()
+##plt.title("Pressure distribution for 17 degree AoA")
+##plt.xlabel("Spanwise position")
+##plt.ylabel("Pressure coefficient")
+##plt.show()
 
 
 
