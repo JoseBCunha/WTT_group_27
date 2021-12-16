@@ -10,6 +10,7 @@ AoA = polar[:, 0]
 Cl = polar[:, 1]
 Cd = polar[:, 2]
 Cm = polar[:, 4]
+Xtr = polar[:,5]
 
 # Inviscid polar data
 invisc_polar = np.array(pd.read_csv("invisc_polars.csv", skiprows=1, sep=","))
@@ -29,14 +30,16 @@ def index(n):
     elif n == 3:
         a = 10
     elif n == 4:
-        a= 15
+        a = 15
+    elif n == 5:
+        a = 17
     return a
 
 Cp = []
 x = []
-for i in range(0, 5):
+for i in range(0, 6):
     Cp.append(Cps[:,3*i +2])
-for i in range(0, 5):
+for i in range(0, 6):
     x.append(Cps[:, 3 * i])
 
 # airfoil data
@@ -85,12 +88,22 @@ def DragPolar2():
     plt.savefig("Cl_Cd.png", dpi="figure", transparent=True)
     return plt.show()
 
+def Transition():
+    plt.scatter(AoA, Xtr, s=10, c="r", label="XFOIL")
+    plt.plot(AoA, Xtr, color="black", linewidth=1)
+    plt.xlabel("\u03B1 [deg]")
+    plt.ylabel("Transition [x/c]")
+    plt.grid()
+    plt.legend()
+    plt.savefig("transition_alpha.png", dpi="figure", transparent=True)
+    return plt.show()
+
 def CpGraph(n):
     name = index(n)
     file_name = "Cp__a=%sº.png" % name
     plt.scatter(x[n], Cp[n], s=10, c="r", label=f"XFOIL for alpha = {index(n)}º")
     plt.plot(x[n], Cp[n], color="black", linewidth=1)
-    plt.xlabel("x/c")
+    plt.xlabel("x/c [-]")
     plt.ylabel(r"$C_{p}$")
     plt.grid()
     plt.legend()
@@ -121,4 +134,4 @@ def Compare_LiftPolar():
 
 
 # print(CpGraph(0), CpGraph(1), CpGraph(2), CpGraph(3), CpGraph(4),LiftPolar(),MomentPolar(),DragPolar(),DragPolar2(),Airfoil())
-print(Compare_LiftPolar())
+print()
