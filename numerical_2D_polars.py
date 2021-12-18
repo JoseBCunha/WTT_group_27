@@ -2,6 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.axes as ax
 import pandas as pd
 
 # Viscous polar data
@@ -47,6 +48,17 @@ airfoil = np.array(pd.read_csv("Airfoil.csv", skiprows=0, sep=","))
 x_c = airfoil[:,0]
 y_c = airfoil[:,1]
 
+
+# different transition data
+trans = np.array(pd.read_csv("Re_trans.csv",skiprows=0, sep=","))
+AoA1 = trans[:, 0]
+Re1 = trans[:, 1]
+AoA2 = trans[:, 2]
+Re2 = trans[:, 3]
+AoA3 = trans[:, 4]
+Re3 = trans[:, 5]
+
+
 # plots
 def LiftPolar():
     plt.scatter(AoA,Cl, s=10, c="r", label="XFOIL")
@@ -85,7 +97,7 @@ def DragPolar2():
     plt.ylabel(r"$C_{d}$")
     plt.grid()
     plt.legend()
-    plt.savefig("Cl_Cd.png", dpi="figure", transparent=True)
+    plt.savefig("Cd_AoA.png", dpi="figure", transparent=True)
     return plt.show()
 
 def Transition():
@@ -102,6 +114,7 @@ def CpGraph(n):
     name = index(n)
     file_name = "Cp__a=%sº.png" % name
     plt.scatter(x[n], Cp[n], s=10, c="r", label=f"XFOIL for alpha = {index(n)}º")
+    plt.gca().invert_yaxis()
     plt.plot(x[n], Cp[n], color="black", linewidth=1)
     plt.xlabel("x/c [-]")
     plt.ylabel(r"$C_{p}$")
@@ -111,11 +124,13 @@ def CpGraph(n):
     return plt.show()
 
 def Airfoil():
-    plt.figure(figsize=(16, 3))
+    plt.figure(figsize=(16, 4))
     plt.scatter(x_c,y_c, s=10, c="r")
     plt.plot(x_c,y_c, color="black", linewidth=1)
-    plt.ylabel("y/c", fontsize=20)
-    plt.xlabel("x/c", fontsize=20)
+    plt.ylabel("y/c [-]", fontsize=30)
+    plt.xlabel("x/c [-]", fontsize=30)
+    plt.ylim([-0.1,0.1])
+    # ax.Axes.tick_params(labelsize="large")
     plt.tight_layout()
     plt.savefig("airfoil_plot.png", dpi="figure", transparent=True)
     return plt.show()
@@ -132,6 +147,19 @@ def Compare_LiftPolar():
     plt.savefig("Invisc_Cl_AoA.png", dpi="figure", transparent=True)
     return plt.show()
 
+def TransitionCompare():
+    plt.scatter(AoA1, Re1, s=10, c="r", label="Re = 665000")
+    plt.plot(AoA1, Re1, color="red", linewidth=1)
+    plt.scatter(AoA2, Re2, s=25, c="g", label="Re = 1000000", marker="x")
+    plt.plot(AoA2, Re2, color="green", linewidth=1)
+    plt.scatter(AoA3, Re3, s=25, c="blue", label="Re = 2000000",marker="1")
+    plt.plot(AoA3, Re3, color="blue", linewidth=1)
+    plt.xlabel("\u03B1 [deg]")
+    plt.ylabel("Transition [x/c]")
+    plt.grid()
+    plt.legend()
+    plt.savefig("transition_compare.png", dpi="figure", transparent=True)
+    return plt.show()
 
-# print(CpGraph(0), CpGraph(1), CpGraph(2), CpGraph(3), CpGraph(4),LiftPolar(),MomentPolar(),DragPolar(),DragPolar2(),Airfoil())
-print()
+
+print(TransitionCompare())
