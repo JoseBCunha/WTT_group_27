@@ -1,30 +1,83 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy as sp
-import math
-
+import math 
 Cp_data = np.genfromtxt('cp_test.txt', dtype = float)
+"""     Fucked up data 
+Data = np.genfromtxt("raw_test.txt", dtype=float,
+                     encoding=None)
+Data = np.delete(Data,0,0)
+Data = np.delete(Data,0,0)
+press = np.delete(Data, np.s_[0:39], axis = 1)
+# sort data 
+Pbar_lst = Data[:,5] * 100 
+rho_lst = Data[:,16]
+V_lst = Data[:,18]
+Qwr_lst = Data[:,35]
+alpha_lst = Data[:,2] #okay 
+p_dyn_arr = press[:,123:192]
+q_inf_lst = Data[:,17]
+print("sum is:", Pbar_lst + q_inf_lst)
+def Cd_calc (n):
+    p_dyn1_lst = p_dyn_arr[n,:]
+    p_inf = np.full(len(p_dyn_lst),Pbar_lst[n])
+    q_inf = q_inf_lst[n]
+    p_st1 = p_inf
+p_inf = np.full(len(p_tot[2]),Pbar[2], dtype=float)  #ok
+term = p_tot[2,:] - 
+##term =np.sqrt(((p_tot[13,:]) - p_inf) / q_inf[13] - (( p_tot[13,:] - p_inf )/ q_inf[13]))\
+##       * ( 1 - ( ( (p_tot[13,:] + q_wr[13]) - p_inf ) / q_inf[13] ) )
+print("p_tot is:", p_tot[13,:])
+print("p_inf is:", p_inf)
+print("q_inf is:", q_inf[13])
 
-f = open('raw_test.txt','r') # Open file for reading
-lines = f.readlines()
-f.close()
-            
-rows = np.array([])
-for i in range(len(lines)):
-    rows = np.hstack((rows, np.array(lines[i])))
- 
-# EVERYTHING ABOVE WORKS DONT DELETE!!!!
+k = 1 / len(term)
+ran = np.arange(0,1,k)
+Cd = 2 * np.trapz(term,ran)
+#return(Cd)
+print("number is:",Cd)
+##q_inf = ( 1 / 2 ) * rho_lst[2] * V_lst[2] ** 2
+##p_tot = press[:,123:192]
+##
+##p_inf = np.full(len(p_tot),Pbar[2] * 100, dtype=float)
+##print(p_inf)
+##print(len(p_tot[2,:] - p_inf))
+##
+### trying to figure out plots
+ys = np.arange(len(press[2,:]))
+test = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0]
+test = np.array(test)
+test = test / 25 
+plt.plot(ys,press[2,:])
+plt.show()
+plt.plot(test,press[33,:])
+plt.gca().invert_yaxis()
+plt.show()
+test = list(np.arange(0,24,1))
+extra = list(np.arange(23,-1,-1))
+for i in range(len(extra)):
+    test.append(extra[i])
 
-## ==> now all rows are still strings, try to split
-# rows in sperate entries in order to hve 2D array
-
-
-
+print(test)
+"""
+##### total pressures from 125 tem 191
+Cp_data = np.genfromtxt('cp_test.txt', dtype = float)
+#print(Cp_data)
+drag_data = np.genfromtxt('corr_test (3).txt', dtype = float)
+Cd_lst = drag_data[2:,2]
+Cm_lst = drag_data[2:,4]
+#print("moments are:",Cm_lst)
+##################################################################################################
 
 AoA_lst = Cp_data[1,1:]
+aoas = AoA_lst / 180 * np.pi
 loc_lst = Cp_data[2:,0]
 loc_lst = loc_lst / 100
+
 cp_array = Cp_data[2:,1:]
+##
+##plt.plot(loc_lst,press[2,:])
+##plt.show()
 
 def cp_sort (i):
     alpha = AoA_lst[i]
@@ -55,22 +108,57 @@ cp_aoa_13b = cp_sort(41)
 cp_upper = cp_array[:24,:] #ok
 points_upper = loc_lst[0:24] #ok
 
+
 points_lower = loc_lst[24:]
 cp_lower = cp_array[24:,:]
+
 
 ##Cna = np.trapz( cp_upper[:,2], points_upper) - np.trapz(cp_lower[:,2], points_lower) ==>> probably wrong method 
 
 Cnb = np.trapz(cp_array[:,2], loc_lst)
 
 Cn_lst = []
-Cm_lst = []
+Cms = []
+
 
 for i in range(len(AoA_lst)):
     Cn = np.trapz(cp_array[:,i], loc_lst)
     Cn_lst.append(Cn)
-    Cm = np.trapz(cp_array[:,i] * loc_lst, loc_lst)
-    Cm_lst.append(Cm)
-    #Cd = 
+
+
+Cl_lst = Cn_lst * ( np.cos(aoas) + ((np.sin(aoas)) ** 2 / np.cos(aoas))) \
+         - np.tan(aoas) * Cd_lst
+
+
+print(Cl_lst[28])
+
+plt.plot(AoA_lst,Cl_lst)
+plt.title("Cl-alpha curve")
+plt.xlabel("Alpha [degrees]")
+plt.ylabel("Cl")
+plt.grid()
+plt.show()
+
+##plt.plot(AoA_lst, Cd_lst)
+##plt.title('Cd-alpha curve')
+##plt.xlabel("Alpha [degrees]")
+##plt.ylabel("Cd")
+##plt.grid()
+##plt.show()
+
+##plt.plot(Cd_lst, Cl_lst)
+##plt.title('Cl-Cd curve')
+##plt.xlabel("Cd")
+##plt.ylabel("Cl")
+##plt.grid()
+##plt.show()
+
+##plt.plot(AoA_lst, Cm_lst)
+##plt.title('alpha-cm curve')
+##plt.xlabel("alpha [degrees]")
+##plt.ylabel("Cm")
+##plt.grid()
+##plt.show()
     
 
 ##print(Cn_lst)
@@ -87,12 +175,13 @@ for i in range(len(AoA_lst)):
 ##plt.show()
 
 
-##plt.plot(loc_lst, cp_aoa_5)
-##plt.gca().invert_yaxis()
-##plt.title("Pressure distribution for 5 degree AoA")
-##plt.xlabel("Spanwise position")
-##plt.ylabel("Pressure coefficient")
-##plt.show()
+plt.plot(loc_lst, cp_aoa_17)
+plt.gca().invert_yaxis()
+plt.grid()
+plt.title("Pressure distribution for 17 degree AoA")
+plt.xlabel("Position along chord")
+plt.ylabel("Pressure coefficient")
+plt.show()
 ##
 ##plt.plot(loc_lst, cp_aoa_5)
 ##plt.gca().invert_yaxis()
@@ -101,9 +190,9 @@ for i in range(len(AoA_lst)):
 ##plt.ylabel("Pressure coefficient")
 ##plt.show()
 ##
-##plt.plot(loc_lst, cp_aoa_10)
+##plt.plot(loc_lst, cp_aoa_7)
 ##plt.gca().invert_yaxis()
-##plt.title("Pressure distribution for 10 degree AoA")
+##plt.title("Pressure distribution for 7 degree AoA")
 ##plt.xlabel("Spanwise position")
 ##plt.ylabel("Pressure coefficient")
 ##plt.show()
@@ -121,6 +210,7 @@ for i in range(len(AoA_lst)):
 ##plt.xlabel("Spanwise position")
 ##plt.ylabel("Pressure coefficient")
 ##plt.show()
+
 
 
 
